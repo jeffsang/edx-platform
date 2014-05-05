@@ -110,8 +110,7 @@ def get_opt_course_with_access(user, action, course_key):
 
 
 def course_image_url(course):
-    """Try to look up the image url for the course.  If it's not found,
-    log an error and return the dead link"""
+    """ Determine whether this is an XML or Studio-backed course, and return the appropriate course_image URL """
     if course.static_asset_path or modulestore().get_modulestore_type(course.id) == XML_MODULESTORE_TYPE:
         return '/static/' + (course.static_asset_path or getattr(course, 'data_dir', '')) + "/images/course_image.jpg"
     else:
