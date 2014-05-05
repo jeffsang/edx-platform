@@ -1,6 +1,15 @@
   
 .. Links
 
+.. _edX Edge: https://edge.edx.org
+
+.. _edx.org: http://edx.org
+
+.. _Sphinx: http://sphinx-doc.org/
+.. _LaTeX: http://www.latex-project.org/
+.. _GitHub Flow: https://github.com/blog/1557-github-flow-in-the-browser
+.. _RST: http://docutils.sourceforge.net/rst.html
+
 .. _edX Status: http://status.edx.org/
 
 .. _edX roadmap: https://edx-wiki.atlassian.net/wiki/display/OPENPROD/Open+EdX+Public+Product+Roadmap
