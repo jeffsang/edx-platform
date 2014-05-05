@@ -80,15 +80,15 @@ class ViewsTestCase(TestCase):
         self.user = User.objects.create(username='dummy', password='123456',
                                         email='test@mit.edu')
         self.date = datetime(2013, 1, 22, tzinfo=UTC)
-        self.course_id = SlashSeparatedCourseKey('edX', 'toy', '2012_Fall')
-        self.enrollment = CourseEnrollment.enroll(self.user, self.course_id)
+        self.course_key = SlashSeparatedCourseKey('edX', 'toy', '2012_Fall')
+        self.enrollment = CourseEnrollment.enroll(self.user, self.course_key)
         self.enrollment.created = self.date
         self.enrollment.save()
         self.location = ['tag', 'org', 'course', 'category', 'name']
 
         self.request_factory = RequestFactory()
         chapter = 'Overview'
-        self.chapter_url = '%s/%s/%s' % ('/courses', self.course_id, chapter)
+        self.chapter_url = '%s/%s/%s' % ('/courses', self.course_key, chapter)
 
     @unittest.skipUnless(settings.FEATURES.get('ENABLE_SHOPPING_CART'), "Shopping Cart not enabled in settings")
     @patch.dict(settings.FEATURES, {'ENABLE_PAID_COURSE_REGISTRATION': True})
@@ -146,7 +146,7 @@ class ViewsTestCase(TestCase):
         mock_user.is_authenticated.return_value = False
         self.assertFalse(views.registered_for_course('dummy', mock_user))
         mock_course = MagicMock()
-        mock_course.id = self.course_id
+        mock_course.id = self.course_key
         self.assertTrue(views.registered_for_course(mock_course, self.user))
 
     def test_jump_to_invalid(self):
@@ -221,7 +221,7 @@ class ViewsTestCase(TestCase):
     def test_course_mktg_register(self):
         admin = AdminFactory()
         self.client.login(username=admin.username, password='test')
-        url = reverse('mktg_about_course', kwargs={'course_id': self.course_id.to_deprecated_string()})
+        url = reverse('mktg_about_course', kwargs={'course_id': self.course_key.to_deprecated_string()})
         response = self.client.get(url)
         self.assertIn('Register for', response.content)
         self.assertNotIn('and choose your student track', response.content)
@@ -230,12 +230,12 @@ class ViewsTestCase(TestCase):
         admin = AdminFactory()
         CourseMode.objects.get_or_create(mode_slug='honor',
                                          mode_display_name='Honor Code Certificate',
-                                         course_id=self.course_id)
+                                         course_id=self.course_key)
         CourseMode.objects.get_or_create(mode_slug='verified',
                                          mode_display_name='Verified Certificate',
-                                         course_id=self.course_id)
+                                         course_id=self.course_key)
         self.client.login(username=admin.username, password='test')
-        url = reverse('mktg_about_course', kwargs={'course_id': self.course_id.to_deprecated_string()})
+        url = reverse('mktg_about_course', kwargs={'course_id': self.course_key.to_deprecated_string()})
         response = self.client.get(url)
         self.assertIn('Register for', response.content)
         self.assertIn('and choose your student track', response.content)
@@ -250,7 +250,7 @@ class ViewsTestCase(TestCase):
 
         # try it with an existing user and a malicious location
         url = reverse('submission_history', kwargs={
-            'course_id': self.course_id.to_deprecated_string(),
+            'course_id': self.course_key.to_deprecated_string(),
             'student_username': 'dummy',
             'location': '<script>alert("hello");</script>'
         })
@@ -259,7 +259,7 @@ class ViewsTestCase(TestCase):
 
         # try it with a malicious user and a non-existent location
         url = reverse('submission_history', kwargs={
-            'course_id': self.course_id.to_deprecated_string(),
+            'course_id': self.course_key.to_deprecated_string(),
             'student_username': '<script>alert("hello");</script>',
             'location': 'dummy'
         })
@@ -403,11 +403,11 @@ class StartDateTests(ModuleStoreTestCase):
         course = modulestore().get_course(course.id)  # pylint: disable=no-member
         return course
 
-    def get_about_text(self, course_id):
+    def get_about_text(self, course_key):
         """
         Get the text of the /about page for the course.
         """
-        text = views.course_about(self.request, course_id.to_deprecated_string()).content
+        text = views.course_about(self.request, course_key.to_deprecated_string()).content
         return text
 
     @patch('util.date_utils.pgettext', fake_pgettext(translations={

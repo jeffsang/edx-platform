@@ -48,6 +48,7 @@ class PageLoaderTestCase(LoginEnrollmentTestCase):
     Base class that adds a function to load all pages in a modulestore.
     """
 
+    # TODO once everything is merged can someone please check whether this function takes a course_id or course_key
     def check_all_pages_load(self, course_id):
         """
         Assert that all pages in the course load correctly.
