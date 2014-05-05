@@ -13,11 +13,12 @@ based on the `IMS Global Learning Tools
 Interoperability <http://www.imsglobal.org/LTI/v1p1p1/ltiIMGv1p1p1.html>`_
 version 1.1.1 specifications.
 
-You can use an LTI component in two ways.
+You can use an LTI component in several ways.
 
--  You can add external LTI content that is displayed only, such as
+- You can use the component as a placeholder for syncing with an external grading system. 
+- You can add external LTI content that is displayed only, such as
    textbook content that doesn’t require a student response.
--  You can add external LTI content that requires a student response. An
+- You can add external LTI content that requires a student response. An
    external provider will grade student responses.
 
 For example, the following LTI component incorporates a Cerego tool that students interact with. 
@@ -138,47 +139,52 @@ Step 3. Add the LTI Component to a Unit
 #. In the unit where you want to create the problem, click **Advanced**
    under **Add New Component**, and then click **LTI**.
 #. In the component that appears, click **Edit**.
-#. In the component editor, set the options that you want. See the table
-   below for a description of each option.
+#. In the component editor, specify the settings that you want. See :ref:`LTI Component Settings` for a description of each setting.
 #. Click **Save**.
 
-  .. list-table::
-     :widths: 10 80
-     :header-rows: 1
+.. _LTI Component settings:
 
-     * - Setting
-       - Description
-     * - Custom Parameters
-       - Enables you to add one or more custom parameters. For example, if you've added an e-book, a custom parameter may include the page that your e-book should open to. You could also use a custom parameter to set the background color of the LTI component.
+**********************
+LTI Component Settings
+**********************
 
-         Every custom parameter has a key and a value. You must add the key and value in the following format.
+.. list-table::
+   :widths: 10 80
+   :header-rows: 1
 
-         ::
+   * - Setting
+     - Description
+   * - Custom Parameters
+     - Enables you to add one or more custom parameters. For example, if you've added an e-book, you can set a custom parameter that opens the e-book to a specific page. You could also use a custom parameter to set the background color of the LTI component.
 
-            key=value
+       Every custom parameter has a key and a value. You must add the key and value in the following format.
 
-         For example, a custom parameter may resemble the following.
+       ::
 
-         ::
+          key=value
 
-            bgcolor=red
+       For example, a custom parameter may resemble the following.
 
-            page=144
+       ::
 
-         To add a custom parameter, click **Add**.
-     * - Display Name
-       - Specifies the name of the problem. This name appears above the problem and in the course ribbon at the top of the page in the courseware. Analytics reports may also use the display name to identify this component.
-     * - Hide External Tool
-       - Indicates whether you want you want to use this component as a placeholder for syncing with an external grading system or you want this component to launch an external tool. If you set the value to **True**, Studio hides the **Launch** button and any IFrames for this component. By default, this value is set to **False**.
-     * - LTI ID
-       - Specifies the LTI ID for the external LTI provider. This value must be the same LTI ID that you entered on the **Advanced Settings** page.
-     * - LTI URL
-       - Specifies the URL of the external tool that this component launches. This setting is applicable when **Hide External Tool** is set to False.
-     * - Open in New Page
-       - Indicates whether the problem opens in a new page. If you set this value to **True**,          the student clicks a link that opens the LTI content in a new window. If you set this value to **False**, the LTI content opens in an IFrame in the current page. This setting is applicable when **Hide External Tool** is set to False.
-     * - Scored
-       - Indicates whether the LTI component receives a numerical score from the external LTI system. By default, this value is set to **False**.
-     * - Weight
-       - Specifies the number of points possible for the problem. By default, if an external LTI provider grades the problem, the problem is worth 1 point, and a student’s score can be any value between 0 and 1. This setting is applicable when **Scored** is set to **True**.
+          bgcolor=red
 
-         For more information about problem weights and computing point scores, see :ref:`Problem Weight`.
+          page=144
+
+       To add a custom parameter, click **Add**.
+   * - Display Name
+     - Specifies the name of the problem. This name appears above the problem and in the course ribbon at the top of the page in the courseware. Analytics reports may also use the display name to identify this component.
+   * - Hide External Tool
+     - Indicates whether you want to launch an external tool or to use this component as a placeholder for syncing with an external grading system. If you set the value to **True**, Studio hides the **Launch** button and any IFrames for this component. By default, this value is set to **False**.
+   * - LTI ID
+     - Specifies the LTI ID for the external LTI provider. This value must be the same LTI ID that you entered on the **Advanced Settings** page.
+   * - LTI URL
+     - Specifies the URL of the external tool that this component launches. This setting is applicable when **Hide External Tool** is set to False.
+   * - Open in New Page
+     - Indicates whether the problem opens in a new page. If you set this value to **True**,          the student clicks a link that opens the LTI content in a new window. If you set this value to **False**, the LTI content opens in an IFrame in the current page. This setting is applicable when **Hide External Tool** is set to False.
+   * - Scored
+     - Indicates whether the LTI component receives a numerical score from the external LTI system. By default, this value is set to **False**.
+   * - Weight
+     - Specifies the number of points possible for the problem. By default, if an external LTI provider grades the problem, the problem is worth 1 point, and a student’s score can be any value between 0 and 1. This setting is applicable when **Scored** is set to **True**.
+
+       For more information about problem weights and computing point scores, see :ref:`Problem Weight`.
