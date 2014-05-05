@@ -57,6 +57,7 @@ def get_course(course_id, depth=0):
         raise ValueError(u"Invalid location: {0}".format(course_id))
 
 
+# TODO please rename this function to get_course_by_key at next opportunity!
 def get_course_by_id(course_key, depth=0):
     """
     Given a course id, return the corresponding course descriptor.
@@ -77,20 +78,20 @@ def get_course_by_id(course_key, depth=0):
         raise Http404("Invalid location")
 
 
-def get_course_with_access(user, action, course_id, depth=0):
+def get_course_with_access(user, action, course_key, depth=0):
     """
-    Given a course_id, look up the corresponding course descriptor,
+    Given a course_key, look up the corresponding course descriptor,
     check that the user has the access to perform the specified action
     on the course, and return the descriptor.
 
-    Raises a 404 if the course_id is invalid, or the user doesn't have access.
+    Raises a 404 if the course_key is invalid, or the user doesn't have access.
 
     depth: The number of levels of children for the modulestore to cache. None means infinite depth
     """
-    assert isinstance(course_id, CourseKey)
-    course = get_course_by_id(course_id, depth=depth)
+    assert isinstance(course_key, CourseKey)
+    course = get_course_by_id(course_key, depth=depth)
 
-    if not has_access(user, action, course, course_id):
+    if not has_access(user, action, course, course_key):
         # Deliberately return a non-specific error message to avoid
         # leaking info about access control settings
         raise Http404("Course not found.")
@@ -98,14 +99,14 @@ def get_course_with_access(user, action, course_id, depth=0):
     return course
 
 
-def get_opt_course_with_access(user, action, course_id):
+def get_opt_course_with_access(user, action, course_key):
     """
-    Same as get_course_with_access, except that if course_id is None,
+    Same as get_course_with_access, except that if course_key is None,
     return None without performing any access checks.
     """
-    if course_id is None:
+    if course_key is None:
         return None
-    return get_course_with_access(user, action, course_id)
+    return get_course_with_access(user, action, course_key)
 
 
 def course_image_url(course):

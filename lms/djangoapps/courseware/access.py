@@ -161,7 +161,10 @@ def _has_access_course_desc(user, action, course):
             debug("Allow: in enrollment period")
             return True
 
-        # if user is in CourseEnrollmentAllowed with right course ID then can also enroll
+        # if user is in CourseEnrollmentAllowed with right course key then can also enroll
+        # (note that course.id actually points to a CourseKey)
+        # (the filter call uses course_id= since that's the legacy database schema)
+        # (sorry that it's confusing :( )
         if user is not None and user.is_authenticated() and CourseEnrollmentAllowed:
             if CourseEnrollmentAllowed.objects.filter(email=user.email, course_id=course.id):
                 return True
