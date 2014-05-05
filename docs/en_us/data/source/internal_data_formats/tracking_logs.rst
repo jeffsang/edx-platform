@@ -157,11 +157,12 @@ This section describes the JSON fields that are common to the schema definitions
 
 **Type:** string/JSON 
 
-**Details:** For all event types, identifies the course that generated the
-event, the organization that lists the course, and the individual who is
-performing the action. ``course_user_tags`` contains a dictionary with the key(s)
-and value(s) from the ``user_api_usercoursetag`` table
-for the user. See :ref:`user_api_usercoursetag`. 
+**Details:** For all event types, this dict type field includes member fields
+that identify the course that generated the event, the organization that lists
+the course, and the individual who is performing the action.
+``course_user_tags`` contains a dictionary with the key(s) and value(s) from the
+``user_api_usercoursetag`` table for the user. See
+:ref:`user_api_usercoursetag`.
 
 **Values/Format/Member Fields:** Contains these common member fields:
 
@@ -183,8 +184,9 @@ may duplicate this data. ``course_user_tags`` added 12 Mar 2014.
 
 **Type:** string/JSON
 
-**Details:** Specifics of the triggered event. Contains member fields that apply
-to specific event types only: see the description for each event type.
+**Details:** For all event types, this dict type field includes member fields
+that identify specifics of the triggered event. Different member fields are
+supplied for different types of events: see the description for each event type.
 
 ========================
 ``event_source`` Field
@@ -211,7 +213,7 @@ on the server.
 
 **Type:** string
 
-**Details:** The site visited by the user, typically courses.edx.org.
+**Details:** The site visited by the user, for example, courses.edx.org.
 
 ===================
 ``ip`` Field
@@ -256,7 +258,7 @@ on the server.
 ===================
 
 **Type:** The username of the user who caused the event to fire. This string is
-empty for anonymous events (i.e., user not logged in).
+empty for anonymous events, such as when the user is not logged in.
 
 **Details:** string
 
@@ -282,7 +284,12 @@ This section lists the event types that are logged for interactions with the LMS
 
 * :ref:`AB_Event_Types`
 
-The descriptions that follow include what each event type represents, which component it originates from, and what ``event`` and ``context`` fields it contains. The value in the ``event_source`` field (see the :ref:`common` section above) distinguishes between events that originate in the browser (in javascript) and events that originate on the server (during the processing of a request).
+The descriptions that follow include what each event type represents, which
+component it originates from, and what member fields the ``event`` and
+``context`` dict fields contain. The value in the ``event_source`` field (see
+the :ref:`common` section above) distinguishes between events that originate in
+the browser (in JavaScript) and events that originate on the server (during the
+processing of a request).
 
 .. _enrollment:
 
@@ -291,13 +298,19 @@ Enrollment Event Types
 =========================
 
 These event types are fired by the server in response to course enrollment
-activities.
+activities completed by a student.
 
 * ``edx.course.enrollment.activated`` is fired when a student enrolls in a
-  course.
+  course. On edx.org, this is typically the result of a student clicking 
+  **Register** for the course.
 
 * ``edx.course.enrollment.deactivated`` is fired when a student unenrolls from a
-  course.
+  course. On edx.org, this is typically the result of a student clicking 
+  **Unregister** for the course.
+
+In addition, instructors and course staff members also generate enrollment
+events. For the actions that members of the course team can perform that result
+in these events, see :ref:`instructor_enrollment`.
 
 **Event Source**: Server
 
@@ -317,11 +330,11 @@ activities.
    * - ``course_id``
      - string
      - **History**: Maintained for backward compatibility. As of 23 Oct 2013,
-       replaced by the ``context`` ``course_id`` field. See :ref:`context`.
+       replaced by the ``context`` ``course_id`` field. See the description of
+       the :ref:`context`.
    * - ``user_id``
      - integer
-     - **History**: Maintained for backward compatibility. As of 06 Nov 2013,
-       replaced by the ``context`` ``user_id`` field. See :ref:`context`.
+     - Identifies the user who was enrolled or unenrolled. 
    * - ``mode``
      - string
      - 'audit', 'honor', 'verified'
@@ -448,20 +461,19 @@ These event types can fire when a user works with a video.
 
 ``event`` **Fields**: These event types have the same ``event`` fields.
 
-+---------------------+---------------+---------------------------------------------------------------------+
-| Field               | Type          | Details                                                             |
-+=====================+===============+=====================================================================+
-| ``id``              | string        | EdX ID of the video being watched (for example,                     |
-|                     |               | i4x-HarvardX-PH207x-video-Simple_Random_Sample).                    |
-+---------------------+---------------+---------------------------------------------------------------------+
-| ``code``            | string        | YouTube ID of the video being watched (for                          |
-|                     |               | example, FU3fCJNs94Y).                                              |
-+---------------------+---------------+---------------------------------------------------------------------+
-| ``currentTime``     | float         | Time the video was played at, in seconds.                           |
-+---------------------+---------------+---------------------------------------------------------------------+
-| ``speed``           | string        | Video speed in use (i.e., 0.75, 1.0, 1.25, 1.50).                   |
-|                     |               |                                                                     |
-+---------------------+---------------+---------------------------------------------------------------------+
++-----------------+--------+----------------------------------------------------+
+| Field           | Type   | Details                                            |
++=================+========+====================================================+
+| ``id``          | string | EdX ID of the video being watched (for example,    |
+|                 |        | i4x-HarvardX-PH207x-video-Simple_Random_Sample).   |
++-----------------+--------+----------------------------------------------------+
+| ``code``        | string | YouTube ID of the video being watched (for         |
+|                 |        | example, FU3fCJNs94Y).                             |
++-----------------+--------+----------------------------------------------------+
+| ``currentTime`` | float  | Time the video was played at, in seconds.          |
++-----------------+--------+----------------------------------------------------+
+| ``speed``       | string | Video speed in use: '0.75', '1.0', '1.25', '1.50'. |
++-----------------+--------+----------------------------------------------------+
 
 ``seek_video``
 -----------------
@@ -1454,7 +1466,8 @@ When a student views a module that is set up to test different content using chi
 Instructor Event Types
 *************************
 
-The Instructor Event Type table lists the event types logged for course team interaction with the Instructor Dashboard in the LMS.
+The Instructor Event Type table lists the event types logged for course team
+interaction with the Instructor Dashboard in the LMS. 
 
 .. need a description for each of these
 
@@ -1524,3 +1537,30 @@ The Instructor Event Type table lists the event types logged for course team int
 |                                        |                      |                 +---------------------+---------------+
 |                                        |                      |                 | ``event``           | string        |
 +----------------------------------------+----------------------+-----------------+---------------------+---------------+
+
+.. _instructor_enrollment:
+
+=============================
+Instructor Enrollment Events
+=============================
+
+In addition to the enrollment events that are generated when students 
+enroll in or unenroll from a course, actions by instructors and course staff
+members also generate enrollment events.
+
+* When a course author creates a course, the server fires
+  ``edx.course.enrollment.activated`` to enroll his or her user account in the
+  course.
+
+* When a user with the Instructor or Course Staff role enrolls in a course, the
+  server fires ``edx.course.enrollment.activated``. The server fires
+  ``edx.course.enrollment.deactivated`` events when these users unenroll from a
+  course.
+
+* When a user with the Instructor or Course Staff role uses the **Batch
+  Enrollment** feature to enroll students or other staff members in a course,
+  the server fires ``edx.course.enrollment.activated`` to enroll his or her
+  account in the course. The server fires ``edx.course.enrollment.deactivated``
+  events when this feature is used to unenroll students from a course.
+
+For details about the enrollment events, see :ref:`enrollment`.
