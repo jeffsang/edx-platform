@@ -149,6 +149,8 @@ This section describes the JSON fields that are common to the schema definitions
 
 **Details:** Browser agent string of the user who triggered the event. 
 
+.. _context:
+
 ===================
 ``context`` Field
 ===================
@@ -207,7 +209,9 @@ on the server.
 ``host`` Field
 ===================
 
-%%%**This appears to be a previously undocumented "common" field.**
+**Type:** string
+
+**Details:** The site visited by the user, typically courses.edx.org.
 
 ===================
 ``ip`` Field
@@ -286,21 +290,20 @@ The descriptions that follow include what each event type represents, which comp
 Enrollment Event Types
 =========================
 
-These event types are fired by the server in response to user enrollment
+These event types are fired by the server in response to course enrollment
 activities.
 
-* ``edx.course.enrollment.activated`` is fired when a user activates a new
-  account.
+* ``edx.course.enrollment.activated`` is fired when a student enrolls in a
+  course.
 
-* ``edx.course.enrollment.deactivated`` is fired when a user %%%.
-
-%%%TBD --- is this edX registration or course registration? 
+* ``edx.course.enrollment.deactivated`` is fired when a student unenrolls from a
+  course.
 
 **Event Source**: Server
 
 **History**: The enrollment event types were added on 03 Dec 2013.
 
-.. Alison: move to this table format, and identify these event and context fields as member fields.
+.. Alison: move other tables to this format, and identify these event and context fields as member fields.
 
 ``event`` **Member Fields**: 
 
@@ -313,14 +316,15 @@ activities.
      - Details
    * - ``course_id``
      - string
-     - **History**: As of 23 Oct 2013, replaced by the ``context`` ``course_id``
-       field.
+     - **History**: Maintained for backward compatibility. As of 23 Oct 2013,
+       replaced by the ``context`` ``course_id`` field. See :ref:`context`.
    * - ``user_id``
      - integer
-     - **History**: As of 06 Nov 2013, replaced by the ``context`` ``user_id`` field.
+     - **History**: Maintained for backward compatibility. As of 06 Nov 2013,
+       replaced by the ``context`` ``user_id`` field. See :ref:`context`.
    * - ``mode``
      - string
-     - 'honor', %%%
+     - 'audit', 'honor', 'verified'
    * - ``name``
      - string
      - Identifies the type of event: 'edx.course.enrollment.activated' or
@@ -348,6 +352,8 @@ activities.
 Example
 --------
 
+.. reviewers, is this example accurate wrt the new fields?
+
 .. code-block:: json
 
   {
@@ -358,7 +364,7 @@ Example
     "context": {
       "course_id": "edX\/DemoX\/Demo_Course",
       "org_id": "edX",
-      "path": "/change_enrollment",%%%
+      "path": "/change_enrollment",
       "user_id": 9999999
     },
     "time": "2014-01-26T00:28:28.388782+00:00",
@@ -367,8 +373,8 @@ Example
       "course_id": "edX\/DemoX\/Demo_Course",
       "user_id": 9999999,
       "mode": "honor"
-      "name": "edx.course.enrollment.activated",%%%
-      "session": %%%
+      "name": "edx.course.enrollment.activated",
+      "session": a14j3ifhskngw0gfgn230g
     },
     "agent": "Mozilla\/5.0 (Windows NT 6.1; WOW64; Trident\/7.0; rv:11.0) like Gecko",
     "page": null
