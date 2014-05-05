@@ -42,6 +42,10 @@ class StudentModule(models.Model):
     # Filename for homeworks, etc.
     module_id = LocationKeyField(max_length=255, db_index=True, db_column='module_id')
     student = models.ForeignKey(User, db_index=True)
+    # TODO: This is a lie; course_id now represents something more like a course_key.  We may
+    # or may not want to change references to this to something like course_key or course_key_field in
+    # this file.  (Certain changes would require a DB migration which is probably not what we want.)
+    # Someone should look at this and reevaluate before the final merge into master.
     course_id = CourseKeyField(max_length=255, db_index=True)
 
     @property
