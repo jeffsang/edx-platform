@@ -39,6 +39,7 @@ class InstructorFactory(UserFactory):
     last_name = "Instructor"
 
     @factory.post_generation
+    # TODO Change this from course to course_key at next opportunity
     def course(self, create, extracted, **kwargs):
         if extracted is None:
             raise ValueError("Must specify a CourseKey for a course instructor user")
@@ -53,6 +54,7 @@ class StaffFactory(UserFactory):
     last_name = "Staff"
 
     @factory.post_generation
+    # TODO Change this from course to course_key at next opportunity
     def course(self, create, extracted, **kwargs):
         if extracted is None:
             raise ValueError("Must specify a CourseKey for a course staff user")
@@ -67,6 +69,7 @@ class BetaTesterFactory(UserFactory):
     last_name = "Beta-Tester"
 
     @factory.post_generation
+    # TODO Change this from course to course_key at next opportunity
     def course(self, create, extracted, **kwargs):
         if extracted is None:
             raise ValueError("Must specify a CourseKey for a beta-tester user")
@@ -81,6 +84,7 @@ class OrgStaffFactory(UserFactory):
     last_name = "Org-Staff"
 
     @factory.post_generation
+    # TODO Change this from course to course_key at next opportunity
     def course(self, create, extracted, **kwargs):
         if extracted is None:
             raise ValueError("Must specify a CourseKey for an org-staff user")
@@ -95,6 +99,7 @@ class OrgInstructorFactory(UserFactory):
     last_name = "Org-Instructor"
 
     @factory.post_generation
+    # TODO Change this from course to course_key at next opportunity
     def course(self, create, extracted, **kwargs):
         if extracted is None:
             raise ValueError("Must specify a CourseKey for an org-instructor user")

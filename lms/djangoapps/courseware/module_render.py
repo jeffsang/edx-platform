@@ -60,6 +60,10 @@ XQUEUE_INTERFACE = XQueueInterface(
     REQUESTS_AUTH,
 )
 
+# TODO basically all instances of course_id in this file *should* be changed to course_key, but
+# there's a couple tricky ones I'm too afraid to change before we merge the jellyfish branches.
+# This should be fixed after the jellyfish merge, before merge into master.
+
 
 def make_track_function(request):
     '''

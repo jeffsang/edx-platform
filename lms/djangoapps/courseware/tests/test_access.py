@@ -27,6 +27,7 @@ class AccessTestCase(TestCase):
         self.anonymous_user = AnonymousUserFactory()
         self.student = UserFactory()
         self.global_staff = UserFactory(is_staff=True)
+        # TODO please change the StaffFactory and InstructorFactory parameters ASAP!
         self.course_staff = StaffFactory(course=self.course.course_key)
         self.course_instructor = InstructorFactory(course=self.course.course_key)
 
