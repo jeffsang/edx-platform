@@ -46,7 +46,9 @@ class TestJumpTo(TestCase):
         self.course_key = SlashSeparatedCourseKey('edX', 'toy', '2012_Fall')
 
     def test_jumpto_invalid_location(self):
-        location = self.course_key.make_usage_key(None, 'NoSuchPlace')
+        location = self.course_key.make_usage_key(None, 'NoSuchPlace')        
+        # This is fragile, but unfortunately the problem is that within the LMS we
+        # can't use the reverse calls from the CMS
         jumpto_url = '{0}/{1}/jump_to/{2}'.format('/courses', self.course_key.to_deprecated_string(), location.to_deprecated_string())
         response = self.client.get(jumpto_url)
         self.assertEqual(response.status_code, 404)
